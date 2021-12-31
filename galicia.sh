@@ -21,6 +21,8 @@ FILE3="COVID19_Web_InfectadosPorFecha_PDIA.csv"
 #Planta; UCI
 FILE4="COVID19_Web_OcupacionCamasHospital.csv"
 
+URL="https://coronavirus.sergas.gal/datos/#/gl-ES/galicia"
+
 function status(){
 	unset DIFF
 	CURR=$1
@@ -102,6 +104,7 @@ export HOSPITAL_ADMITTED_YESTERDAY
 export HOSPITAL_ADDMITTED_DIFF
 export HOSPITAL_ICU_YESTERDAY
 export HOSPITAL_ICU_DIFF
+export URL
 
 # Print all data
 source ./printData.sh
