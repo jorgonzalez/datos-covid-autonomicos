@@ -18,6 +18,8 @@ if [[ "${CONTROL}" != "NO DATA" ]]; then
 	echo "${RECOVERED_DIFF} CURADOS\n"
 	echo "🏥 ${HOSPITAL_ADMITTED_YESTERDAY} PLANTA [${HOSPITAL_ADDMITTED_DIFF}]\n"
 	echo "🚑 ${HOSPITAL_ICU_YESTERDAY} UCI [${HOSPITAL_ICU_DIFF}]\n"
+	echo "\n"
+	echo "${URL}"
 else
 	echo "📍 ${REGION}\n"
 	echo "\n"
