@@ -2,19 +2,16 @@
 
 REGION="MADRID"
 
-FILE_DATE=$(date +"%Y%m%d")
-FILE_DATE2=$(date +"%y%m%d")
-
 DATE_TODAY=$(date +"%Y-%m-%d")
-DATE_YESTERDAY=$(date +"%d/%m/%y" --date="yesterday")
-DATE_2DAYSAGO=$(date +"%d/%m/%y" --date="2 days ago")
-DATE_3DAYSAGO=$(date +"%d/%m/%y" --date="3 days ago")
-DATE_4DAYSAGO=$(date +"%d/%m/%y" --date="4 days ago")
-DATE_5DAYSAGO=$(date +"%d/%m/%y" --date="5 days ago")
-DATE_6DAYSAGO=$(date +"%d/%m/%y" --date="6 days ago")
-DATE_7DAYSAGO=$(date +"%d/%m/%y" --date="7 days ago")
-DATE_8DAYSAGO=$(date +"%d/%m/%y" --date="8 days ago")
-DATE_9DAYSAGO=$(date +"%d/%m/%y" --date="9 days ago")
+DATE_YESTERDAY=$(date +"%d/%m/%Y" --date="yesterday")
+DATE_2DAYSAGO=$(date +"%d/%m/%Y" --date="2 days ago")
+DATE_3DAYSAGO=$(date +"%d/%m/%Y" --date="3 days ago")
+DATE_4DAYSAGO=$(date +"%d/%m/%Y" --date="4 days ago")
+DATE_5DAYSAGO=$(date +"%d/%m/%Y" --date="5 days ago")
+DATE_6DAYSAGO=$(date +"%d/%m/%Y" --date="6 days ago")
+DATE_7DAYSAGO=$(date +"%d/%m/%Y" --date="7 days ago")
+DATE_8DAYSAGO=$(date +"%d/%m/%Y" --date="8 days ago")
+DATE_9DAYSAGO=$(date +"%d/%m/%Y" --date="9 days ago")
 
 FILE1="SituacionEpidemiologica${REGION}_today.pdf"
 FILE1TXT="SituacionEpidemiologica${REGION}_today.txt"
@@ -23,29 +20,28 @@ FILE2TXT="SituacionEpidemiologica${REGION}_yesterday.txt"
 
 FILE_DATE=$(date +"%Y%m%d")
 FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
-wget -qc "${FILE}" -O ${FILE1}
-RESULT=$(echo $?)
-if [[ "${RESULT}" -ne 0 ]]; then
-	FILE_DATE=$(date +"%y%m%d")
-	FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
-	wget -qc "${FILE}" -O ${FILE1}
-fi
-pdftotext -layout ${FILE1} ${FILE1TXT}
-
-FILE_DATE=$(date +"%Y%m%d" --date="yesterday")
-FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
 wget -qc "${FILE}" -O ${FILE2}
 RESULT=$(echo $?)
 if [[ "${RESULT}" -ne 0 ]]; then
-	FILE_DATE=$(date +"%y%m%d" --date="yesterday")
+	FILE_DATE=$(date +"%y%m%d")
 	FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
 	wget -qc "${FILE}" -O ${FILE2}
 fi
 pdftotext -layout ${FILE2} ${FILE2TXT}
 
+FILE_DATE=$(date +"%Y%m%d" --date="yesterday")
+FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
+wget -qc "${FILE}" -O ${FILE1}
+RESULT=$(echo $?)
+if [[ "${RESULT}" -ne 0 ]]; then
+	FILE_DATE=$(date +"%y%m%d" --date="yesterday")
+	FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
+	wget -qc "${FILE}" -O ${FILE1}
+fi
+pdftotext -layout ${FILE2} ${FILE2TXT}
+
 TEMPORARY_YESTERDAY=$(cat ${FILE1TXT})
 TEMPORARY_2DAYSAGO=$(cat ${FILE2TXT})
-
 
 function status(){
 	unset DIFF
