@@ -16,6 +16,8 @@ wget -qc "https://analisis.datosabiertos.jcyl.es/explore/dataset/situacion-epide
 FILE2="SituacionHospitalizadosCyL.csv"
 wget -qc "https://analisis.datosabiertos.jcyl.es/explore/dataset/situacion-de-hospitalizados-por-coronavirus-en-castilla-y-leon/download/?format=csv&timezone=Europe/Madrid&lang=en&use_labels_for_header=true&csv_separator=%3B" -O ${FILE2}
 
+URL="https://analisis.datosabiertos.jcyl.es/pages/coronavirus/"
+
 function status(){
 	unset DIFF
 	CURR=$1
@@ -139,6 +141,7 @@ export HOSPITAL_ADMITTED_YESTERDAY
 export HOSPITAL_ADDMITTED_DIFF
 export HOSPITAL_ICU_YESTERDAY
 export HOSPITAL_ICU_DIFF
+export URL
 
 # Print all data
 source ./printData.sh
