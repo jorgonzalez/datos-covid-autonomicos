@@ -2,7 +2,7 @@
 
 REGION="MADRID"
 
-DATE_TODAY=$(date +"%Y-%m-%d")
+DATE_TODAY=$(date +"%Y-%-m-%-d")
 DATE_YESTERDAY=$(date +"%d/%m/%Y" --date="yesterday")
 DATE_2DAYSAGO=$(date +"%d/%m/%Y" --date="2 days ago")
 DATE_3DAYSAGO=$(date +"%d/%m/%Y" --date="3 days ago")
@@ -18,27 +18,27 @@ FILE1TXT="SituacionEpidemiologica${REGION}_today.txt"
 FILE2="SituacionEpidemiologica${REGION}_yesterday.pdf"
 FILE2TXT="SituacionEpidemiologica${REGION}_yesterday.txt"
 
-FILE_DATE=$(date +"%Y%m%d")
+FILE_DATE=$(date +"%Y%m%d" --date="yesterday")
 FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
 wget -qc "${FILE}" -O ${FILE2}
 RESULT=$(echo $?)
 if [[ "${RESULT}" -ne 0 ]]; then
-	FILE_DATE=$(date +"%y%m%d")
+	FILE_DATE=$(date +"%y%m%d" -date="yesterday")
 	FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
 	wget -qc "${FILE}" -O ${FILE2}
 fi
 pdftotext -layout ${FILE2} ${FILE2TXT}
 
-FILE_DATE=$(date +"%Y%m%d" --date="yesterday")
+FILE_DATE=$(date +"%Y%m%d")
 FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
 wget -qc "${FILE}" -O ${FILE1}
 RESULT=$(echo $?)
 if [[ "${RESULT}" -ne 0 ]]; then
-	FILE_DATE=$(date +"%y%m%d" --date="yesterday")
+	FILE_DATE=$(date +"%y%m%d")
 	FILE="https://www.comunidad.madrid/sites/default/files/doc/sanidad/${FILE_DATE}_cam_covid19.pdf"
 	wget -qc "${FILE}" -O ${FILE1}
 fi
-pdftotext -layout ${FILE2} ${FILE2TXT}
+pdftotext -layout ${FILE1} ${FILE1TXT}
 
 TEMPORARY_YESTERDAY=$(cat ${FILE1TXT})
 TEMPORARY_2DAYSAGO=$(cat ${FILE2TXT})
@@ -64,7 +64,7 @@ function status(){
 	unset DIFF
 }
 
-CHECK_LAST_DATA=$(echo "${TEMPORARY}" | grep "Datos cierre día anterior" -m1 -B1 | head -n1 | tr -d "." | sed -e 's/^[ \t]*//' | awk -F"/" '{print $3"-"$2"-"$1}')
+CHECK_LAST_DATA=$(echo "${TEMPORARY_YESTERDAY}" | grep "Datos cierre día anterior" -m1 -B1 | head -n1 | tr -d "." | sed -e 's/^[ \t]*//' | awk -F"/" '{print $3"-"$2"-"$1}')
 if [[ "${CHECK_LAST_DATA}" == "${DATE_TODAY}" ]]; then
 	CONTROL="OK"
 
